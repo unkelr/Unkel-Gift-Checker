@@ -16,11 +16,11 @@ print(Fore.RED + "Star : https://github.com/unkelr/Unkel-Gift-Checker/")
 
 async def check_gift_code(code, session, proxy):
     try:
-        async with session.get(f'https://discord.gift/{code}', proxy=proxy) as resp:
+        async with session.get(f'https://discord.com/{code}', proxy=proxy) as resp:
             if resp.status == 200:
-                return f"Valid Nitro Gift Code!"
+                return print(Fore.GREEN + f"Valid!")
             elif resp.status == 404:
-                return "Invalid Nitro Gift Code!"
+                return print(Fore.RED + f"Invalid!")
             else:
                 return "An error occurred while checking the code."
     except aiohttp.ClientProxyConnectionError:
@@ -80,7 +80,7 @@ async def main():
             print(f"Code: {code.strip()} - {result}")
     elif option == '2':
         write_codes([])
-        print("All codes cleared.")
+        print(Fore.GREEN + f"All codes cleared.")
     else:
         print("Invalid option.")
 
