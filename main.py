@@ -5,22 +5,21 @@ import discord
 from colorama import Fore
 import time
 
-
-
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 cls()
 os.system('title UNKEL GIFT CHECKER')
 print(Fore.RED + "Star : https://github.com/unkelr/Unkel-Gift-Checker/")
+time.sleep(1)
 
 async def check_gift_code(code, session, proxy):
     try:
         async with session.get(f'https://discord.com/{code}', proxy=proxy) as resp:
             if resp.status == 200:
-                return print(Fore.GREEN + f"Valid!")
+                return Fore.GREEN + f"Valid!"
             elif resp.status == 404:
-                return print(Fore.RED + f"Invalid!")
+                return Fore.RED + f"Invalid!"
             else:
                 return "An error occurred while checking the code."
     except aiohttp.ClientProxyConnectionError:
@@ -45,13 +44,13 @@ def write_codes(codes):
         file.writelines(codes)
 
 async def main():
-    print(Fore.RED + "Do you want to use proxies? (y/n): ")
+    cls()
+    print(Fore.CYAN + "Do you want to use proxies? (y/n): ")
     use_proxies = input().lower().strip() == 'y'
 
-    if use_proxies:
-        proxies = read_proxies()
-
-    print(f"""{Fore.RED}
+    proxies = read_proxies() if use_proxies else []
+    cls()
+    print(f"""{Fore.CYAN}
 
 
 ╦ ╦╔╗╔╦╔═╔═╗╦    ╔═╗╦ ╦╔═╗╔═╗╦╔═╔═╗╦═╗
@@ -77,7 +76,8 @@ async def main():
                 proxy = aiohttp.ProxyConnector.from_url(proxies.pop(0).strip())
             async with aiohttp.ClientSession() as session:
                 result = await check_gift_code(code.strip(), session, proxy)
-            print(f"Code: {code.strip()} - {result}")
+            print(Fore.CYAN + f"Code: {code.strip()} - {result}")
+        print(Fore.CYAN + f"All codes checked.")
     elif option == '2':
         write_codes([])
         print(Fore.GREEN + f"All codes cleared.")
@@ -86,3 +86,9 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+    while True:
+        print("Do you want to exit? Press Enter.")
+        choice = input().lower().strip()
+        if choice == '':
+            break
