@@ -1,0 +1,3 @@
+@echo off
+title Installing Dependencies...
+pip install -r req.txt
